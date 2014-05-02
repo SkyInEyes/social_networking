@@ -1,0 +1,108 @@
+{% extends "shop_base.html" %}
+{% load static %}
+
+{% block content %}
+<script>
+	
+			function detail_id(){
+				alert('gh');
+			}
+		
+            function callback(data){
+				if (data.id != 1)
+				{
+					$("#place_information").show();
+					$("#place_photo").attr('src', data.photo)
+					$("#place_address").text(data.address)
+					$("#place_how_to_go").text(data.how_to_go)
+					$("#place_operation_time").text(data.operation_time)
+				}
+				else
+				{
+					$("#place_information").hide()
+				}
+			}
+</script>
+<div id="order_detail">
+    	<form action="/shop/order/" method="post">{% csrf_token %}
+    		<table>
+	    		<tr>
+	    			<td>
+	    				Способ доставки
+	    			</td>
+	    			<td>
+	    				Срок доставки
+	    			</td>
+	    			<td>
+	    				Оплата за доставку
+	    			</td>
+	    		</tr>
+			{% for detail in details %}
+				<tr>
+					<td>
+						{% if detail.type == 'courier' %}
+							Доставка курьером
+						{% else %}
+							Пункт выдачи {{ detail.address }}
+						{% endif %}
+					</td>
+					<td>
+						{{ detail.delivery_period }}
+					</td>
+					<td>
+						{{ detail.tax }}
+					</td>
+					<td>
+						{% if detail.id == 1 %}
+						<input type="radio" checked="true" name="order_type" value="{{detail.id }}" onclick="Dajaxice.shop.place_information(callback, {'place_id':$(this).val()})"/>
+						{% else %}
+							<input type="radio" name="order_type" value="{{detail.id }}" onclick="Dajaxice.shop.place_information(callback, {'place_id':$(this).val()})"/>	
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+    		</table>
+    		<input type="submit" value="Продолжить оформление заказа заказ">
+		</form>
+		<div id="place_information" style="display: none; min-height: 500px;">
+			<div style="float: left;">
+				<img height="400" width="450" id="place_photo" src="" />
+			</div>
+			<div>
+				<table>
+					<tr>
+						<td>
+							Адрес:
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p id="place_address"> </p><br>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Как добраться:
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p id="place_how_to_go"> </p><br>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Время работы:
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p id="place_operation_time"> </p>
+						</td>
+					</tr>
+				</table>
+			</div>
+			</div>
+		</div>
+    </div>
+{% endblock %}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  {% load dajaxice_templatetags %}
+  <head>
+    <meta charset="utf-8">
+    <title>internet-store</title>
+    {%load static%}
+		
+		
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+		<script type="text/javascript" src="{% static 'js/jquery.rating-2.0.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/jquery.raty.js' %}"></script>
+		<link href="{% static 'styles/jquery.rating.css' %}" rel="stylesheet" type="text/css" />
+		<link href="{% static 'styles/main.css' %}" rel="stylesheet" type="text/css" />
+		{% dajaxice_js_import %}
+		<script type="text/javascript">	
+			$(function() {
+			
+		      $('div.rating').rating({
+					fx: 'full',
+					readOnly: true,
+					width: 16,
+					height: 16,
+				    image: '{% static 'images/stars_small.png' %}',
+				    loader: '{% static 'images/ajax-loader.gif' %}'
+				});
+				
+				$('div.mark').rating({
+					fx: 'full',
+					image: '{% static 'images/stars_small.png' %}',
+				    loader: '{% static 'images/ajax-loader.gif' %}',
+				    click: function(score, evt) {
+						$('#mark_value').attr('value', score);
+					}
+				});
+				
+				$('#show_hide_comment').hover(function() {
+					$(this).css('cursor','pointer');					
+					}, function() {
+					$(this).css('cursor','auto');
+				});
+				
+				$('#show_hide_comment').click(function() {
+					isvisible = $('#comment_form').css('display');
+					if (isvisible != 'block')
+					{
+						$('#comment_form').show()
+					}
+					else
+					{
+						$('#comment_form').hide()
+					}
+				});
+			})
+		</script>
+  </head>
+<body>
+
+<header> <a href="/shop" id="logo"> Интернет-магазин </a> </header>
+	<section>
+
+	<div id="info">
+	<table>
+                        {% if user.id %}
+                            <tr>
+                                <td><p>Приветствуем, {{user.first_name}}!</p></td>
+                            </tr>
+                            <tr>
+                                <td><img src="{{ user.my_profile.get_mugshot_url }}"/></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/shop/{{ user.id }}/orders">Заказы</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="{% url 'userena_profile_detail' user.username %}">Редактировать профиль</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/accounts/signout">Выход из личного кабинета</a></td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td><p>Приветствуем, уважаемый!</p></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/accounts/signup/">Регистрация</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/accounts/signin/">Вход</a></td>
+                            </tr>
+                        {% endif %}
+                     </table>
+		
+    <table>
+    
+    	<tr>
+	    	<td> Товаров в корзине: </td>
+    		<td> {{request.session.basket.count}} </td>
+    	</tr>
+    	<tr>
+	    	<td> Текущая сумма заказа: </td>
+    		<td> {{request.session.basket.sum}} </td>
+    	</tr>
+    	<tr>
+    		<td>
+	    		<a href="/shop/cart/">Корзина</a>
+    		</td>
+    	</tr>
+    </table>
+	</div>
+		<div id="items">
+    {% block content %}
+	{% endblock %}
+	</div>
+	
+    </section>
+
+</body>
+</html>

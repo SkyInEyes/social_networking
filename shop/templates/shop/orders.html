@@ -1,0 +1,51 @@
+{% extends "shop_base.html" %}
+{% load static %}
+
+{% block content %}
+<div id='user_orders'>
+<table>
+	<tr>
+		<td>
+			Код заказа
+		</td>
+		<td>
+			Дата совершения заказа
+		</td>
+		<td>
+			Сумма заказа
+		</td>
+		<td>
+			Способ доставки
+		</td>
+		<td>
+			Статус заказа
+		</td>
+	</tr>
+{% for order in orders %}
+	<form action="/shop/{{ order.id }}/reject/" method="post">{% csrf_token %}
+	<tr>
+		<td>
+			{{ order.code }}
+		</td>
+		<td>
+			{{ order.order_date }}
+		</td>
+		<td>
+			{{ order.full_sum }}
+		</td>
+		<td>
+			{{ order.delivery }}
+		</td>
+		<td>
+			{{ order.detail }}
+		</td>
+		{% if order.detail != 'rejected' %}
+		<td>
+			<input type="submit" value="Отменить заказ">
+		</td>
+		{% endif %}
+	</tr>
+	</form>
+{% endfor %}
+</table>
+{% endblock %}

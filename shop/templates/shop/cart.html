@@ -1,0 +1,64 @@
+{% extends "shop_base.html" %}
+{% load static %}
+
+{% block content %}
+<div id='cart_detail'>
+<form action="/shop/cart/" method="post">{% csrf_token %}
+<table>
+	<tr>
+		<td id='test'> Название товара </td>
+		<td> Наличие </td>
+		<td> Количество </td>
+		<td> Стоимость </td>
+	</tr>
+{% for item in cart %}
+	<tr class="tr_item">
+		<td>
+			{{ item.item.name }}
+			<input hidden="true" type="text" name="{{item.item.id}}_id" value="{{ item.item.id }}" />
+		</td>
+		<td>
+			{% if item.item.available == 'available' and item.count <= item.item.count %}
+				В наличии
+			{% else %}
+				Под заказ (поступит на склад через {{ item.item.delivery_period }} дней)
+			{% endif %}
+		</td>
+		<td class="order_count">
+			<div style="position: relative; float: left;">
+				<h5 style="width: 64px; text-align: center;"> {{ item.count }} </h5>
+				<input hidden="true" type="text" name="{{item.item.id}}_count" value="{{ item.count }}" id="{{item.item.id}}_count" />
+				
+			</div>
+			<div style="position: relative; margin-top: 8px;">
+				<a href="/shop/{{ item.item.id }}/add_count_in_basket/"> 
+					<img class="add_count" width="8" height="8" src='{% static 'images/plus.png' %}' />
+				</a>
+				<a href="/shop/{{ item.item.id }}/remove_count_in_basket/">
+					<img class="remove_count" width="8" height="8" src='{% static 'images/minus.png' %}' /> 
+				</a>
+			</div> 
+		</td>
+		<td class="order_sum">
+			<h5> {{ item.sum }} </h5>
+			<h5 hidden="true"> {{ item.item.price }} </h5>
+			<input hidden="true" type="text" name="{{item.item.id}}_sum" value="{{ item.sum }}" id="{{item.item.id}}_sum" />
+		</td>
+		<td>
+			<a href="/shop/{{ item.item.id }}/remove_item_from_basket/"> Удалить из корзины </a>
+		</td>
+	</tr>
+{% endfor %}
+	<tr>
+		<td>
+			<h4 id="summary"> Итоговая стоимость без учета доставки: {{ summary }} </h4>
+		</td>
+	</tr>
+	
+	
+</table>
+{% if count > 0 %}
+	<input type="submit" value="Оформить заказ">
+{% endif %}
+</form>
+{% endblock %}

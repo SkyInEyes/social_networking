@@ -1,0 +1,61 @@
+{% extends "shop_base.html" %}
+{% block content %}
+{% load static %}
+
+	<form action="/shop/" method="post">{% csrf_token %}
+		<select onchange="this.form.submit()" name="item_type">
+		{% for val, key in choices %}
+			{% if val == selected %}
+				<option value="{{ val }}" selected="true">{{ key }}</option>
+			{% else %}
+				<option value="{{ val }}">{{ key }}</option>
+			{% endif %}
+		{% endfor %}	
+		</select>
+		
+	</form>
+{% if items %}
+    <table style="height: 250px;">
+    {% for item in items %}
+        <tr>
+	        <td>
+	        	<div class="rating" style="width: 96px; margin-left: 32px;">
+	        		<input type="hidden" name="val" value="{{ item.mark }}">
+				</div>
+				<div style="margin-top: 4px; position: relative;">
+        			<img width="150" height="150" src='{{ item.thumb.thumb.url }}' />
+				</div>
+        	</td>
+        	
+        	<td>
+				
+        		<a href="/shop/{{ item.id }}/">{{ item.name }}</a>
+        	</td>
+        	{% if item.available != 'unavailable' %}
+        	<td>
+        		<a href="/shop/{{ item.id }}/add_to_basket/">В корзину</a>
+        	</td>
+        	{% endif %}
+        </tr>
+    {% endfor %}
+    </table>
+	
+    <div class="pagination">
+    <span class="step-links">
+        {% if items.has_previous %}
+            <a href="?page={{ items.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ items.number }} of {{ items.paginator.num_pages }}.
+        </span>
+
+        {% if items.has_next %}
+            <a href="?page={{ items.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+{% else %}
+    <p>Товар не поступил</p>
+{% endif %}
+{% endblock %}

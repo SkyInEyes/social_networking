@@ -1,0 +1,97 @@
+{% extends "shop_base.html" %}
+{% load static %}
+
+{% block content %}
+<div id='cart_detail'>
+<form action="/shop/confirm/" method="post">{% csrf_token %}
+<table>
+	<tr>
+		<td id='test'> Название товара </td>
+		<td> Количество </td>
+		<td> Стоимость </td>
+	</tr>
+{% for item in cart %}
+	<tr class="tr_item">
+		<td>
+			{{ item.item.name }}
+			
+		</td>
+		<td class="order_count">
+			<h5 style="width: 64px; text-align: center;"> {{ item.count }} </h5>
+			 
+		</td>
+		<td class="order_sum">
+			<h5> {{ item.sum }} </h5>
+			
+		</td>
+		
+	</tr>
+{% endfor %}
+	<tr>
+		<td>
+			Итоговая стоимость c учетом доставки: {{ summary }}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Примерное количество дней на доставку: {{ days }} 
+		</td>
+	</tr>
+	{% if detail.type == 'courier' %}
+		<tr>
+			<td>
+				Способ доставки: доставка курьером
+			</td>
+		</tr>
+	{% else %}
+		<tr>
+			<td>
+		<div id="place_information" style="min-height: 500px;">
+			<div style="float: left;">
+				<img height="400" width="450" id="place_photo" src="{{ detail.photo.url }}" />
+			</div>
+			<div>
+				<table>
+					<tr>
+						<td>
+							Адрес:
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p id="place_address"> {{ detail.address }} </p><br>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Как добраться:
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p id="place_how_to_go"> {{ detail.how_to_go }} </p><br>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Время работы:
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p id="place_operation_time"> {{ detail.operation_time }} </p>
+						</td>
+					</tr>
+				</table>
+			</div>
+			</div>
+			</td>
+		</tr>
+	{% endif %}
+	
+	
+</table>
+<input type="submit" value="Подтвердить">
+
+</form>
+{% endblock %}

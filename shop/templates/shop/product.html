@@ -1,0 +1,124 @@
+{% extends "shop_base.html" %}
+{% block content %}
+{% if item %}
+    <table>
+    <tr>
+    		<td>
+    			{{ item.name }}
+    		</td>
+    <tr>
+    		{% for photo in photos %}
+	        <td>
+	        	
+        			<img width="200" height="200" src='{{ photo.photo.url }}' />
+        		
+        	</td>
+        	{% endfor %}
+    </tr>
+    <tr>
+        	<td>
+        		Цена: {{ item.price }}
+        	</td>
+    </tr>
+    <tr>
+        	<td>
+        		Описание: {{ item.description }}
+        	</td>
+    </tr>
+    <tr>
+        	<td>
+        		Оценка:
+        	</td>
+        	<td>
+        		<div class="rating">
+	        		<input type="hidden" name="val" value="{{ item.mark }}">
+        		</div>
+        	</td>
+    </tr>
+    <tr>
+        	<td>
+        		{% if item.available == 'available' %}
+        			Товар есть в наличии, количество: {{ item.count }}
+        		{% elif item.available == 'order' %}
+        			Под заказ (товар поступит на склад через {{ item.delivery_period }} дней)
+        		{% else %}
+        			Товара нету в наличии
+        		{% endif %}
+        		
+        		
+        	</td>
+    </tr>
+    <tr>
+        	<td>
+        		{% if item.available != 'unavailable' %}	
+	        		<a href="/shop/{{ item.id }}/add_to_basket/">В корзину</a>
+	        	{% endif %}
+        	</td>
+    </tr>
+    </table>
+    {% endif %}
+    
+    	<!--<table>
+    		<tr>
+    			<td>
+    				Отзыв о товаре
+    			</td>
+    			<td>
+    				<a id="show_hide_comment" style="color: blue;" >  Написать отзыв </a>
+    			</td>
+    		</tr>
+    	</table> -->
+	<p> <a id="show_hide_comment" style="color: blue;" >  Написать отзыв </a> </p>
+	<p> <b>Отзывы о товаре: </b></p>
+    <div id="comment_form" style="display: none;">
+    	<form action="/shop/{{ item.id }}/" method="post">{% csrf_token %}
+			{{ form.non_field_errors }}
+		    
+		    <div class="fieldWrapper">
+		        {{ form.name.errors }}
+		        <label for="id_name">Имя:</label>
+		        {{ form.name }}
+		    </div>
+		    <div class="fieldWrapper">
+		        {{ form.comment.errors }}
+		        <label for="id_comment">Комментарий:</label>
+		        {{ form.comment }}
+		    </div>
+		    <div class="fieldWrapper">
+		    	{{ form.mark.errors }}
+		    	{{ form.mark }}
+		        <div class="mark">
+	        				        			
+						
+				</div>
+		    </div>
+		    <p><input type="submit" value="Send message" /></p>
+		</form>
+    </div>
+    {% if comments %}
+    	<table>
+    	{% for comment in comments %}
+	        <tr>
+	        	<td>
+        			<img width="100" height="100" src='{{ comment.user.my_profile.get_mugshot_url }}' />
+	        	</td>
+	        	<td>
+        			<div class="rating">
+	        			<input type="hidden" name="val" value="{{ comment.mark }}">
+					</div>
+	        	</td>
+	        	<td>
+        			{{ comment.user.first_name }}
+	        	</td>
+	        	<td>
+        			{{ comment.comment }}
+	        	</td>
+        	</tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+        
+    
+     
+    
+{% endblock %}
