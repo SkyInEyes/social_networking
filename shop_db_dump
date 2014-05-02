@@ -1,0 +1,2492 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: accounts_myprofile; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE accounts_myprofile (
+    id integer NOT NULL,
+    mugshot character varying(100) NOT NULL,
+    privacy character varying(15) NOT NULL,
+    user_id integer NOT NULL,
+    phone character varying(150) NOT NULL
+);
+
+
+ALTER TABLE public.accounts_myprofile OWNER TO postgres;
+
+--
+-- Name: accounts_myprofile_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE accounts_myprofile_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.accounts_myprofile_id_seq OWNER TO postgres;
+
+--
+-- Name: accounts_myprofile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE accounts_myprofile_id_seq OWNED BY accounts_myprofile.id;
+
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_group (
+    id integer NOT NULL,
+    name character varying(80) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_group_id_seq OWNED BY auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_group_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_group_permissions_id_seq OWNED BY auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_permission (
+    id integer NOT NULL,
+    name character varying(50) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_permission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_permission_id_seq OWNED BY auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone NOT NULL,
+    is_superuser boolean NOT NULL,
+    username character varying(30) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(30) NOT NULL,
+    email character varying(75) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO postgres;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_groups_id_seq OWNED BY auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_id_seq OWNED BY auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_user_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_user_permissions_id_seq OWNED BY auth_user_user_permissions.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    user_id integer NOT NULL,
+    content_type_id integer,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_admin_log_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_admin_log_id_seq OWNED BY django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_content_type (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_content_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_content_type_id_seq OWNED BY django_content_type.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO postgres;
+
+--
+-- Name: django_site; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_site (
+    id integer NOT NULL,
+    domain character varying(100) NOT NULL,
+    name character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.django_site OWNER TO postgres;
+
+--
+-- Name: django_site_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_site_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_site_id_seq OWNER TO postgres;
+
+--
+-- Name: django_site_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_site_id_seq OWNED BY django_site.id;
+
+
+--
+-- Name: easy_thumbnails_source; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE easy_thumbnails_source (
+    id integer NOT NULL,
+    storage_hash character varying(40) NOT NULL,
+    name character varying(255) NOT NULL,
+    modified timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.easy_thumbnails_source OWNER TO postgres;
+
+--
+-- Name: easy_thumbnails_source_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE easy_thumbnails_source_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.easy_thumbnails_source_id_seq OWNER TO postgres;
+
+--
+-- Name: easy_thumbnails_source_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE easy_thumbnails_source_id_seq OWNED BY easy_thumbnails_source.id;
+
+
+--
+-- Name: easy_thumbnails_thumbnail; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE easy_thumbnails_thumbnail (
+    id integer NOT NULL,
+    storage_hash character varying(40) NOT NULL,
+    name character varying(255) NOT NULL,
+    modified timestamp with time zone NOT NULL,
+    source_id integer NOT NULL
+);
+
+
+ALTER TABLE public.easy_thumbnails_thumbnail OWNER TO postgres;
+
+--
+-- Name: easy_thumbnails_thumbnail_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE easy_thumbnails_thumbnail_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.easy_thumbnails_thumbnail_id_seq OWNER TO postgres;
+
+--
+-- Name: easy_thumbnails_thumbnail_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE easy_thumbnails_thumbnail_id_seq OWNED BY easy_thumbnails_thumbnail.id;
+
+
+--
+-- Name: easy_thumbnails_thumbnaildimensions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE easy_thumbnails_thumbnaildimensions (
+    id integer NOT NULL,
+    thumbnail_id integer NOT NULL,
+    width integer,
+    height integer,
+    CONSTRAINT easy_thumbnails_thumbnaildimensions_height_check CHECK ((height >= 0)),
+    CONSTRAINT easy_thumbnails_thumbnaildimensions_width_check CHECK ((width >= 0))
+);
+
+
+ALTER TABLE public.easy_thumbnails_thumbnaildimensions OWNER TO postgres;
+
+--
+-- Name: easy_thumbnails_thumbnaildimensions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE easy_thumbnails_thumbnaildimensions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.easy_thumbnails_thumbnaildimensions_id_seq OWNER TO postgres;
+
+--
+-- Name: easy_thumbnails_thumbnaildimensions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE easy_thumbnails_thumbnaildimensions_id_seq OWNED BY easy_thumbnails_thumbnaildimensions.id;
+
+
+--
+-- Name: guardian_groupobjectpermission; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE guardian_groupobjectpermission (
+    id integer NOT NULL,
+    permission_id integer NOT NULL,
+    content_type_id integer NOT NULL,
+    object_pk character varying(255) NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.guardian_groupobjectpermission OWNER TO postgres;
+
+--
+-- Name: guardian_groupobjectpermission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE guardian_groupobjectpermission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.guardian_groupobjectpermission_id_seq OWNER TO postgres;
+
+--
+-- Name: guardian_groupobjectpermission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE guardian_groupobjectpermission_id_seq OWNED BY guardian_groupobjectpermission.id;
+
+
+--
+-- Name: guardian_userobjectpermission; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE guardian_userobjectpermission (
+    id integer NOT NULL,
+    permission_id integer NOT NULL,
+    content_type_id integer NOT NULL,
+    object_pk character varying(255) NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.guardian_userobjectpermission OWNER TO postgres;
+
+--
+-- Name: guardian_userobjectpermission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE guardian_userobjectpermission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.guardian_userobjectpermission_id_seq OWNER TO postgres;
+
+--
+-- Name: guardian_userobjectpermission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE guardian_userobjectpermission_id_seq OWNED BY guardian_userobjectpermission.id;
+
+
+--
+-- Name: shop_basket; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE shop_basket (
+    id integer NOT NULL,
+    item_id integer NOT NULL,
+    order_id integer NOT NULL,
+    count smallint NOT NULL,
+    sum double precision NOT NULL
+);
+
+
+ALTER TABLE public.shop_basket OWNER TO postgres;
+
+--
+-- Name: shop_basket_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE shop_basket_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shop_basket_id_seq OWNER TO postgres;
+
+--
+-- Name: shop_basket_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE shop_basket_id_seq OWNED BY shop_basket.id;
+
+
+--
+-- Name: shop_deliverydetail; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE shop_deliverydetail (
+    id integer NOT NULL,
+    type character varying(32) NOT NULL,
+    tax double precision NOT NULL,
+    address character varying(256) NOT NULL,
+    delivery_period integer NOT NULL,
+    full_address character varying(1024),
+    how_to_go character varying(1024),
+    operation_time character varying(512),
+    photo character varying(100)
+);
+
+
+ALTER TABLE public.shop_deliverydetail OWNER TO postgres;
+
+--
+-- Name: shop_deliverydetail_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE shop_deliverydetail_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shop_deliverydetail_id_seq OWNER TO postgres;
+
+--
+-- Name: shop_deliverydetail_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE shop_deliverydetail_id_seq OWNED BY shop_deliverydetail.id;
+
+
+--
+-- Name: shop_item; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE shop_item (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL,
+    type character varying(150) NOT NULL,
+    price double precision NOT NULL,
+    mark smallint NOT NULL,
+    description text NOT NULL,
+    id_thumb integer,
+    available character varying(16),
+    count integer,
+    delivery_period integer
+);
+
+
+ALTER TABLE public.shop_item OWNER TO postgres;
+
+--
+-- Name: shop_item_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE shop_item_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shop_item_id_seq OWNER TO postgres;
+
+--
+-- Name: shop_item_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE shop_item_id_seq OWNED BY shop_item.id;
+
+
+--
+-- Name: shop_order; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE shop_order (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    full_sum double precision NOT NULL,
+    delivery character varying(150) NOT NULL,
+    order_date timestamp with time zone NOT NULL,
+    detail character varying(32),
+    code character varying(10)
+);
+
+
+ALTER TABLE public.shop_order OWNER TO postgres;
+
+--
+-- Name: shop_order_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE shop_order_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shop_order_id_seq OWNER TO postgres;
+
+--
+-- Name: shop_order_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE shop_order_id_seq OWNED BY shop_order.id;
+
+
+--
+-- Name: shop_photo; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE shop_photo (
+    id integer NOT NULL,
+    item_id integer NOT NULL,
+    photo character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.shop_photo OWNER TO postgres;
+
+--
+-- Name: shop_photo_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE shop_photo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shop_photo_id_seq OWNER TO postgres;
+
+--
+-- Name: shop_photo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE shop_photo_id_seq OWNED BY shop_photo.id;
+
+
+--
+-- Name: shop_thumb; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE shop_thumb (
+    item_id integer NOT NULL,
+    thumb character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.shop_thumb OWNER TO postgres;
+
+--
+-- Name: shop_type; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE shop_type (
+    id integer NOT NULL,
+    type character varying(150) NOT NULL
+);
+
+
+ALTER TABLE public.shop_type OWNER TO postgres;
+
+--
+-- Name: shop_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE shop_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shop_type_id_seq OWNER TO postgres;
+
+--
+-- Name: shop_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE shop_type_id_seq OWNED BY shop_type.id;
+
+
+--
+-- Name: shop_writecomment; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE shop_writecomment (
+    id integer NOT NULL,
+    item_id integer NOT NULL,
+    user_id integer NOT NULL,
+    name character varying(150) NOT NULL,
+    comment text NOT NULL,
+    comment_date timestamp with time zone NOT NULL,
+    mark smallint NOT NULL
+);
+
+
+ALTER TABLE public.shop_writecomment OWNER TO postgres;
+
+--
+-- Name: shop_writecomment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE shop_writecomment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shop_writecomment_id_seq OWNER TO postgres;
+
+--
+-- Name: shop_writecomment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE shop_writecomment_id_seq OWNED BY shop_writecomment.id;
+
+
+--
+-- Name: south_migrationhistory; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE south_migrationhistory (
+    id integer NOT NULL,
+    app_name character varying(255) NOT NULL,
+    migration character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.south_migrationhistory OWNER TO postgres;
+
+--
+-- Name: south_migrationhistory_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE south_migrationhistory_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.south_migrationhistory_id_seq OWNER TO postgres;
+
+--
+-- Name: south_migrationhistory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE south_migrationhistory_id_seq OWNED BY south_migrationhistory.id;
+
+
+--
+-- Name: userena_userenasignup; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE userena_userenasignup (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    last_active timestamp with time zone,
+    activation_key character varying(40) NOT NULL,
+    activation_notification_send boolean NOT NULL,
+    email_unconfirmed character varying(75) NOT NULL,
+    email_confirmation_key character varying(40) NOT NULL,
+    email_confirmation_key_created timestamp with time zone
+);
+
+
+ALTER TABLE public.userena_userenasignup OWNER TO postgres;
+
+--
+-- Name: userena_userenasignup_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE userena_userenasignup_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.userena_userenasignup_id_seq OWNER TO postgres;
+
+--
+-- Name: userena_userenasignup_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE userena_userenasignup_id_seq OWNED BY userena_userenasignup.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY accounts_myprofile ALTER COLUMN id SET DEFAULT nextval('accounts_myprofile_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group ALTER COLUMN id SET DEFAULT nextval('auth_group_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_permission ALTER COLUMN id SET DEFAULT nextval('auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user ALTER COLUMN id SET DEFAULT nextval('auth_user_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups ALTER COLUMN id SET DEFAULT nextval('auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log ALTER COLUMN id SET DEFAULT nextval('django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_content_type ALTER COLUMN id SET DEFAULT nextval('django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_site ALTER COLUMN id SET DEFAULT nextval('django_site_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY easy_thumbnails_source ALTER COLUMN id SET DEFAULT nextval('easy_thumbnails_source_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY easy_thumbnails_thumbnail ALTER COLUMN id SET DEFAULT nextval('easy_thumbnails_thumbnail_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY easy_thumbnails_thumbnaildimensions ALTER COLUMN id SET DEFAULT nextval('easy_thumbnails_thumbnaildimensions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY guardian_groupobjectpermission ALTER COLUMN id SET DEFAULT nextval('guardian_groupobjectpermission_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY guardian_userobjectpermission ALTER COLUMN id SET DEFAULT nextval('guardian_userobjectpermission_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shop_basket ALTER COLUMN id SET DEFAULT nextval('shop_basket_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shop_deliverydetail ALTER COLUMN id SET DEFAULT nextval('shop_deliverydetail_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shop_item ALTER COLUMN id SET DEFAULT nextval('shop_item_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shop_order ALTER COLUMN id SET DEFAULT nextval('shop_order_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shop_photo ALTER COLUMN id SET DEFAULT nextval('shop_photo_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shop_type ALTER COLUMN id SET DEFAULT nextval('shop_type_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shop_writecomment ALTER COLUMN id SET DEFAULT nextval('shop_writecomment_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY south_migrationhistory ALTER COLUMN id SET DEFAULT nextval('south_migrationhistory_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY userena_userenasignup ALTER COLUMN id SET DEFAULT nextval('userena_userenasignup_id_seq'::regclass);
+
+
+--
+-- Data for Name: accounts_myprofile; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY accounts_myprofile (id, mugshot, privacy, user_id, phone) FROM stdin;
+1		registered	2	
+3		registered	4	
+4	mugshots/unregister_user.png	register	-1	0
+2	mugshots/687a4de1fa.png	registered	3	89161954232
+5		registered	5	
+\.
+
+
+--
+-- Name: accounts_myprofile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('accounts_myprofile_id_seq', 5, true);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_group_id_seq', 1, false);
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can add permission	2	add_permission
+5	Can change permission	2	change_permission
+6	Can delete permission	2	delete_permission
+7	Can add group	3	add_group
+8	Can change group	3	change_group
+9	Can delete group	3	delete_group
+10	Can add user	4	add_user
+11	Can change user	4	change_user
+12	Can delete user	4	delete_user
+13	Can add content type	5	add_contenttype
+14	Can change content type	5	change_contenttype
+15	Can delete content type	5	delete_contenttype
+16	Can add session	6	add_session
+17	Can change session	6	change_session
+18	Can delete session	6	delete_session
+19	Can add site	7	add_site
+20	Can change site	7	change_site
+21	Can delete site	7	delete_site
+22	Can add userena registration	8	add_userenasignup
+23	Can change userena registration	8	change_userenasignup
+24	Can delete userena registration	8	delete_userenasignup
+25	Can add source	9	add_source
+26	Can change source	9	change_source
+27	Can delete source	9	delete_source
+28	Can add thumbnail	10	add_thumbnail
+29	Can change thumbnail	10	change_thumbnail
+30	Can delete thumbnail	10	delete_thumbnail
+31	Can add thumbnail dimensions	11	add_thumbnaildimensions
+32	Can change thumbnail dimensions	11	change_thumbnaildimensions
+33	Can delete thumbnail dimensions	11	delete_thumbnaildimensions
+34	Can add my profile	12	add_myprofile
+35	Can change my profile	12	change_myprofile
+36	Can delete my profile	12	delete_myprofile
+37	Can view profile	12	view_profile
+38	Can add user object permission	13	add_userobjectpermission
+39	Can change user object permission	13	change_userobjectpermission
+40	Can delete user object permission	13	delete_userobjectpermission
+41	Can add group object permission	14	add_groupobjectpermission
+42	Can change group object permission	14	change_groupobjectpermission
+43	Can delete group object permission	14	delete_groupobjectpermission
+44	Can change profile	12	change_profile
+45	Can delete profile	12	delete_profile
+46	Can add item	15	add_item
+47	Can change item	15	change_item
+48	Can delete item	15	delete_item
+49	Can add order	16	add_order
+50	Can change order	16	change_order
+51	Can delete order	16	delete_order
+52	Can add basket	17	add_basket
+53	Can change basket	17	change_basket
+54	Can delete basket	17	delete_basket
+55	Can add write comment	18	add_writecomment
+56	Can change write comment	18	change_writecomment
+57	Can delete write comment	18	delete_writecomment
+58	Can add photo	19	add_photo
+59	Can change photo	19	change_photo
+60	Can delete photo	19	delete_photo
+61	Can add thumb	20	add_thumb
+62	Can change thumb	20	change_thumb
+63	Can delete thumb	20	delete_thumb
+64	Can add migration history	21	add_migrationhistory
+65	Can change migration history	21	change_migrationhistory
+66	Can delete migration history	21	delete_migrationhistory
+67	Can add Способ доставки	22	add_deliverydetail
+68	Can change Способ доставки	22	change_deliverydetail
+69	Can delete Способ доставки	22	delete_deliverydetail
+\.
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_permission_id_seq', 72, true);
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+2	pbkdf2_sha256$12000$0OA56CvIwLox$30laQYGMUwNXBy9DhVY2B8hEg5GVbB+nJXxvA7dqFMc=	2014-04-05 10:24:13.890922+04	f	test1			masany@mail.ru	f	f	2014-04-05 10:24:13.890922+04
+5	pbkdf2_sha256$12000$DVHjZGB1aHiD$+WsFrrVb/TetULtBiPr7jVkzv7KS/z87D4oNivr1aQ0=	2014-04-29 02:46:34.849509+04	f	Vasya			pupkin@vasya.netu	f	t	2014-04-29 02:45:41.52939+04
+4	pbkdf2_sha256$12000$eSWIOstJbWG6$oSJWiHEgZay5mVZ/ZQ1gsqHKX6+Q00UEJIPhdPiYnPw=	2014-04-09 09:44:28.67577+04	f	unregister_user			unregister_user@shop.ru	f	t	2014-04-09 09:42:15.590277+04
+3	pbkdf2_sha256$12000$73kNo5cUjpQB$YnEO9GeV9IzyIezl/oE/UTkrt5S42KGpyERrIUpkNpk=	2014-04-29 10:53:03.48826+04	f	test2	Снежана	Пивач	pivachsnezhana@gmail.com	f	t	2014-04-05 10:28:36.746683+04
+-1		2014-04-05 10:23:50+04	f	AnonymousUser	Анонимный пользователь			f	t	2014-04-05 10:23:50+04
+1	pbkdf2_sha256$12000$74s6LRMnpZop$AO+j6XtjInFX6oa0smUu7HSREsCEBgbYq/SVvZhMdys=	2014-04-29 14:29:32.830358+04	t	admin			admin@admin.com	t	t	2014-04-05 10:23:50+04
+\.
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_id_seq', 5, true);
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_admin_log (id, action_time, user_id, content_type_id, object_id, object_repr, action_flag, change_message) FROM stdin;
+1	2014-04-06 15:43:30.186427+04	1	15	1	Item object	1	
+2	2014-04-06 23:16:25.122758+04	1	15	1	Iphone 6	1	
+3	2014-04-06 23:24:44.013281+04	1	15	2	Samsung Galaxy S II	1	
+4	2014-04-06 23:33:50.142829+04	1	15	2	Samsung Galaxy S II	2	Изменен photo.
+5	2014-04-06 23:33:58.334276+04	1	15	1	Iphone 6	2	Изменен photo.
+6	2014-04-06 23:50:51.921409+04	1	15	1	Iphone 6	1	
+7	2014-04-07 00:56:54.929699+04	1	15	1	Iphone 6	2	Изменен photo.
+8	2014-04-08 10:53:00.580287+04	1	16	2		1	
+9	2014-04-08 10:53:44.624925+04	1	16	2	Sergey	2	Изменен user.
+10	2014-04-08 23:19:31.567747+04	1	16	2	Sergey	2	Изменен order_date.
+11	2014-04-09 01:38:13.015827+04	1	15	2	Samsung Galaxy S II	1	
+12	2014-04-09 01:40:45.825319+04	1	16	1	Sergey	1	
+13	2014-04-09 02:08:44.71312+04	1	16	2	Sergey	1	
+14	2014-04-09 02:09:55.199351+04	1	16	3	Sergey	1	
+15	2014-04-09 02:10:41.082603+04	1	16	3	Sergey	3	
+16	2014-04-09 02:11:03.028741+04	1	16	4	Sergey	1	
+17	2014-04-09 02:12:00.720518+04	1	16	4	Sergey	3	
+18	2014-04-09 02:12:19.49853+04	1	16	5	Sergey	1	
+19	2014-04-09 02:13:51.674621+04	1	16	6	Sergey	1	
+20	2014-04-09 02:26:43.133669+04	1	16	6	Sergey	2	Добавлен basket "Basket object".
+21	2014-04-09 02:32:04.04378+04	1	16	6	Sergey	2	Добавлен basket "Basket object".
+22	2014-04-12 09:53:19.408008+04	1	15	2	Samsung Galaxy S II	2	Добавлен photo "Photo object". Добавлен photo "Photo object". Добавлен photo "Photo object".
+23	2014-04-12 09:53:27.415162+04	1	15	2	Samsung Galaxy S II	2	Ни одно поле не изменено.
+24	2014-04-12 09:55:11.573242+04	1	15	2	Samsung Galaxy S II	2	Добавлен thumb "Thumb object".
+25	2014-04-12 10:01:08.498444+04	1	15	2	Samsung Galaxy S II	2	Ни одно поле не изменено.
+26	2014-04-12 10:02:19.171757+04	1	15	1	Iphone 6	2	Добавлен thumb "Thumb object". Добавлен photo "Photo object". Добавлен photo "Photo object".
+27	2014-04-12 10:24:42.833157+04	1	18	1	WriteComment object	1	
+28	2014-04-12 10:25:24.408661+04	1	18	2	WriteComment object	1	
+29	2014-04-12 10:29:52.791618+04	1	18	2	WriteComment object	2	Ни одно поле не изменено.
+30	2014-04-12 10:29:56.848772+04	1	18	1	WriteComment object	2	Изменен item.
+31	2014-04-12 10:51:30.53319+04	1	4	-1	AnonymousUser	2	Ни одно поле не изменено.
+32	2014-04-17 17:43:30.49088+04	1	15	2	Samsung Galaxy S II	2	Изменен available и count.
+33	2014-04-17 20:00:02.793544+04	1	15	2	Samsung Galaxy S II	2	Ни одно поле не изменено.
+34	2014-04-17 20:24:49.726233+04	1	22	1	DeliveryDetail object	1	
+35	2014-04-17 21:43:53.449808+04	1	22	2	м. Курская	1	
+36	2014-04-25 14:23:24.957176+04	1	15	1	Iphone 6	2	Изменен type,available и count.
+37	2014-04-25 14:23:49.44541+04	1	15	2	Samsung Galaxy S II	2	Изменен count.
+38	2014-04-26 16:10:36.75404+04	1	15	2	Samsung Galaxy S II	2	Изменен available.
+39	2014-04-26 16:11:23.367603+04	1	15	2	Samsung Galaxy S II	2	Изменен available.
+40	2014-04-26 16:23:57.633555+04	1	15	1	Iphone 6	2	Ни одно поле не изменено.
+41	2014-04-26 16:24:39.653813+04	1	15	2	Samsung Galaxy S II	2	Изменен available и delivery_period.
+42	2014-04-28 09:34:55.661295+04	1	15	1	Iphone 6	2	Изменен count.
+43	2014-04-28 09:35:25.617339+04	1	15	1	Iphone 6	2	Изменен delivery_period.
+44	2014-04-28 11:56:42.528388+04	1	22	1	courier	2	Изменен type,tax,address и delivery_period.
+45	2014-04-28 11:58:04.249939+04	1	22	3	м. Белорусская	1	
+46	2014-04-28 19:23:18.417788+04	1	22	3	м. Белорусская	2	Изменен full_address,operation_time и photo.
+47	2014-04-28 19:23:58.848952+04	1	22	3	м. Белорусская	2	Изменен how_to_go и operation_time.
+48	2014-04-28 19:45:06.114497+04	1	22	3	м. Белорусская	2	Изменен photo.
+49	2014-04-28 19:51:17.365997+04	1	22	2	м. Китай-Город	2	Изменен address,full_address,how_to_go,operation_time и photo.
+50	2014-04-29 10:43:16.293185+04	1	16	11		3	
+51	2014-04-29 14:29:09.077376+04	1	4	1	admin	2	Изменен username и email.
+52	2014-05-02 21:04:33.224311+04	1	15	3	Ipad Mini	1	
+53	2014-05-02 21:08:07.105949+04	1	15	1	Iphone 6	2	Изменены thumb для thumb "Thumb object". Изменены photo для photo "Photo object". Изменены photo для photo "Photo object".
+54	2014-05-02 21:11:44.309456+04	1	15	2	Samsung Galaxy S II	2	Изменены thumb для thumb "Thumb object". Изменены photo для photo "Photo object". Изменены photo для photo "Photo object". Изменены photo для photo "Photo object".
+55	2014-05-02 21:14:52.065351+04	1	15	3	Ipad Mini	2	Добавлен thumb "Thumb object". Добавлен photo "Photo object". Добавлен photo "Photo object".
+\.
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_admin_log_id_seq', 55, true);
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_content_type (id, name, app_label, model) FROM stdin;
+1	log entry	admin	logentry
+2	permission	auth	permission
+3	group	auth	group
+4	user	auth	user
+5	content type	contenttypes	contenttype
+6	session	sessions	session
+7	site	sites	site
+8	userena registration	userena	userenasignup
+9	source	easy_thumbnails	source
+10	thumbnail	easy_thumbnails	thumbnail
+11	thumbnail dimensions	easy_thumbnails	thumbnaildimensions
+12	my profile	accounts	myprofile
+13	user object permission	guardian	userobjectpermission
+14	group object permission	guardian	groupobjectpermission
+15	item	shop	item
+16	order	shop	order
+17	basket	shop	basket
+18	write comment	shop	writecomment
+19	photo	shop	photo
+20	thumb	shop	thumb
+21	migration history	south	migrationhistory
+22	Способ доставки	shop	deliverydetail
+\.
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_content_type_id_seq', 23, true);
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_session (session_key, session_data, expire_date) FROM stdin;
+7jzrce54ljvyjlu2ek3lws7a02mm61n9	OTMxYmQ5Yzk4NTRlMTJmZGNjM2EzZjA3MGZhNDg3NjRjMDI0N2Q0MTp7ImJhc2tldCI6eyJjb3VudCI6NSwic3VtIjoxMTMwMDAuMH19	2014-04-24 18:24:03.207754+04
+82mwhyts32irbutgv4b6hgmxgn78fjtu	ODRiN2U5YjcyYzMwM2IyZWM0MjE2YWJiMWIxNzRlM2UzMWRjZjdkODp7ImJhc2tldCI6eyJjb3VudCI6OCwic3VtIjo0MDAwMDAuMCwiMyI6OH0sIl9hdXRoX3VzZXJfaWQiOjEsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=	2014-05-16 21:15:40.315569+04
+\.
+
+
+--
+-- Data for Name: django_site; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_site (id, domain, name) FROM stdin;
+1	example.com	example.com
+\.
+
+
+--
+-- Name: django_site_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_site_id_seq', 1, true);
+
+
+--
+-- Data for Name: easy_thumbnails_source; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY easy_thumbnails_source (id, storage_hash, name, modified) FROM stdin;
+1	f9bde26a1556cd667f742bd34ec7c55e	mugshots/687a4de1fa.png	2014-04-05 10:30:33.750612+04
+\.
+
+
+--
+-- Name: easy_thumbnails_source_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('easy_thumbnails_source_id_seq', 1, true);
+
+
+--
+-- Data for Name: easy_thumbnails_thumbnail; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY easy_thumbnails_thumbnail (id, storage_hash, name, modified, source_id) FROM stdin;
+\.
+
+
+--
+-- Name: easy_thumbnails_thumbnail_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('easy_thumbnails_thumbnail_id_seq', 1, false);
+
+
+--
+-- Data for Name: easy_thumbnails_thumbnaildimensions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY easy_thumbnails_thumbnaildimensions (id, thumbnail_id, width, height) FROM stdin;
+\.
+
+
+--
+-- Name: easy_thumbnails_thumbnaildimensions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('easy_thumbnails_thumbnaildimensions_id_seq', 1, false);
+
+
+--
+-- Data for Name: guardian_groupobjectpermission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY guardian_groupobjectpermission (id, permission_id, content_type_id, object_pk, group_id) FROM stdin;
+\.
+
+
+--
+-- Name: guardian_groupobjectpermission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('guardian_groupobjectpermission_id_seq', 1, false);
+
+
+--
+-- Data for Name: guardian_userobjectpermission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY guardian_userobjectpermission (id, permission_id, content_type_id, object_pk, user_id) FROM stdin;
+1	37	12	1	2
+2	44	12	1	2
+3	45	12	1	2
+4	11	4	2	2
+5	12	4	2	2
+6	37	12	2	3
+7	44	12	2	3
+8	45	12	2	3
+9	11	4	3	3
+10	12	4	3	3
+11	37	12	3	4
+12	44	12	3	4
+13	45	12	3	4
+14	11	4	4	4
+15	12	4	4	4
+16	37	12	5	5
+17	44	12	5	5
+18	45	12	5	5
+19	11	4	5	5
+20	12	4	5	5
+\.
+
+
+--
+-- Name: guardian_userobjectpermission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('guardian_userobjectpermission_id_seq', 20, true);
+
+
+--
+-- Data for Name: shop_basket; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY shop_basket (id, item_id, order_id, count, sum) FROM stdin;
+1	1	1	2	20000
+2	2	1	3	60000
+3	2	2	1	5000
+6	1	5	2	10000
+7	2	6	2	123
+8	1	6	2	5000
+9	1	6	4	100000
+10	2	8	2	38000
+11	1	9	2	50000
+12	1	10	1	25000
+13	2	10	1	19000
+15	2	12	2	38000
+16	1	13	8	200000
+17	1	14	8	200000
+18	1	15	1	25000
+19	2	15	1	19000
+\.
+
+
+--
+-- Name: shop_basket_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('shop_basket_id_seq', 19, true);
+
+
+--
+-- Data for Name: shop_deliverydetail; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY shop_deliverydetail (id, type, tax, address, delivery_period, full_address, how_to_go, operation_time, photo) FROM stdin;
+1	courier	250		2	\N	\N	\N	\N
+3	self	49	м. Белорусская	3	Москва, ул. Скаковая, д. 36	выйти из метро к Белорусскому вокзалу. Зайти в здание вокзала в подъезд № 4 с надписью "Выход на Ленинградский проспект", пройти до конца здания, затем по переходу и выйти на улицу к дому № 1. Обойти дом вокруг по Нижней улице. Далее следовать по ней же вниз до пересечения с ул. Скаковой. Вход в офис расположен в угловом подъезде, рядом с мойкой и автозаправкой.	по рабочим дням с 9:00 до 20:30, по выходным — с 10:00 до 20:00.	points_map/belorusskaya_point.png
+2	self	49	м. Китай-Город	2	Москва, Лубянский проезд, д. 27/1	Выход в город к ул. Солянка, Лубянскому проезду, далее по подземному переходу метро - последний выход с левой стороны, далее выход направо, выйти на Лубянский проезд и пройти до пересечения с Солянским проездом. Повернуть налево и пройти еще 50 м. Вход в пункт выдачи заказов находится за стеклянной дверью, напротив через улицу располагается Чебуречная. Поднимитесь на второй этаж.	по рабочим дням с 9:00 до 20:30; по выходным с 10:00 до 20:00.	points_map/kitaygorod_point.png
+\.
+
+
+--
+-- Name: shop_deliverydetail_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('shop_deliverydetail_id_seq', 3, true);
+
+
+--
+-- Data for Name: shop_item; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY shop_item (id, name, type, price, mark, description, id_thumb, available, count, delivery_period) FROM stdin;
+1	Iphone 6	Phone	25000	3	Phone	\N	order	0	7
+2	Samsung Galaxy S II	Phone	19000	4	Phone 222	\N	order	6	8
+3	Ipad Mini	Tablet	50000	4	123qwe	\N	order	0	2
+\.
+
+
+--
+-- Name: shop_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('shop_item_id_seq', 3, true);
+
+
+--
+-- Data for Name: shop_order; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY shop_order (id, user_id, full_sum, delivery, order_date, detail, code) FROM stdin;
+12	3	38250	Курьерская	2014-04-29 10:43:37.922669+04	prepare	l7g36gftzh
+10	3	44049	м. Белорусская	2014-04-29 11:06:23.174737+04	prepare	t6900epeam
+9	3	50250	Курьерская	2014-04-29 11:06:26.118694+04	prepare	zr6ymvux7i
+8	3	38049		2014-04-29 11:06:32.39312+04	prepare	z5hngqshkv
+7	3	38049		2014-04-29 11:06:35.551281+04	prepare	ve363kfzeu
+5	3	10000	Самовывоз	2014-04-29 11:06:38.040365+04	prepare	6g92hw0fdo
+2	3	1000	Самовывоз	2014-04-29 11:06:40.612377+04	prepare	nilibb0a94
+1	3	40000	Курьером	2014-04-29 11:06:42.808558+04	prepare	xttdou995l
+6	3	105123	Курьером	2014-04-29 11:05:37.257976+04	rejected	hlolwgizwz
+13	3	200049	м. Белорусская	2014-04-29 11:34:36.440927+04	rejected	6ck23d69l5
+14	3	200049	м. Китай-Город	2014-04-29 11:38:02.820702+04	prepare	hxventzwuh
+15	3	44049	м. Китай-Город	2014-04-29 14:27:55.796312+04	prepare	gpebvh1tux
+\.
+
+
+--
+-- Name: shop_order_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('shop_order_id_seq', 15, true);
+
+
+--
+-- Data for Name: shop_photo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY shop_photo (id, item_id, photo) FROM stdin;
+4	1	photo/iphone5-1.jpeg
+5	1	photo/remont-iphone-5.png
+1	2	photo/samsung_galaxy_1.jpg
+2	2	photo/samsung_galaxy_2.jpg
+3	2	photo/samsung_galaxy_3.jpg
+6	3	photo/ipad_mini1.jpg
+7	3	photo/ipad_mini2.jpg
+\.
+
+
+--
+-- Name: shop_photo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('shop_photo_id_seq', 7, true);
+
+
+--
+-- Data for Name: shop_thumb; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY shop_thumb (item_id, thumb) FROM stdin;
+1	thumb/iphone5-1.jpeg
+2	thumb/samsung_galaxy_1.jpg
+3	thumb/ipad_mini1.jpg
+\.
+
+
+--
+-- Data for Name: shop_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY shop_type (id, type) FROM stdin;
+\.
+
+
+--
+-- Name: shop_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('shop_type_id_seq', 1, false);
+
+
+--
+-- Data for Name: shop_writecomment; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY shop_writecomment (id, item_id, user_id, name, comment, comment_date, mark) FROM stdin;
+1	2	1	Вася Пупкин	Круто все	2014-04-16 22:58:32.177659+04	1
+5	2	-1	Не вася пупкин	Проверка связи	2014-04-16 23:07:22.851993+04	5
+6	2	-1	Не вася пупкин	Проверка связи	2014-04-16 23:07:39.904548+04	5
+7	2	-1	Не вася пупкин	Проверка связи 1	2014-04-16 23:08:10.376552+04	2
+8	2	-1	Не вася пупкин	Проверка связи 1	2014-04-16 23:32:26.926758+04	2
+10	2	-1	Вася Пупкин	Проверка рейтинга	2014-04-17 17:03:15.777145+04	5
+11	2	-1	Вася Пупкин	Проверка рейтинга	2014-04-17 17:03:41.370761+04	5
+12	2	-1	Вася Пупкин	Проверка рейтинга	2014-04-17 17:03:46.833062+04	5
+13	2	-1	Вася Пупкин	Проверка рейтинга	2014-04-17 17:03:51.351581+04	5
+14	2	-1	Вася Пупкин	Проверка рейтинга	2014-04-17 17:03:55.487663+04	5
+15	1	1	Вася Пупкин	qwe	2014-04-22 10:00:54.699043+04	5
+16	1	3	12312	sdfsdf	2014-04-26 16:17:16.031728+04	2
+\.
+
+
+--
+-- Name: shop_writecomment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('shop_writecomment_id_seq', 16, true);
+
+
+--
+-- Data for Name: south_migrationhistory; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY south_migrationhistory (id, app_name, migration, applied) FROM stdin;
+\.
+
+
+--
+-- Name: south_migrationhistory_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('south_migrationhistory_id_seq', 1, false);
+
+
+--
+-- Data for Name: userena_userenasignup; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY userena_userenasignup (id, user_id, last_active, activation_key, activation_notification_send, email_unconfirmed, email_confirmation_key, email_confirmation_key_created) FROM stdin;
+1	2	\N	6e8c762ba48621ee0dca553bf8f4c4ecaee634ee	f			\N
+2	3	\N	ALREADY_ACTIVATED	f			\N
+3	4	\N	8fca018f36a55c5b5e2a45a279d98fe32dc25496	f			\N
+4	5	\N	804c001a1b7c46309a3a3ad08478913af2f342fa	f			\N
+\.
+
+
+--
+-- Name: userena_userenasignup_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('userena_userenasignup_id_seq', 4, true);
+
+
+--
+-- Name: accounts_myprofile_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY accounts_myprofile
+    ADD CONSTRAINT accounts_myprofile_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: accounts_myprofile_user_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY accounts_myprofile
+    ADD CONSTRAINT accounts_myprofile_user_id_key UNIQUE (user_id);
+
+
+--
+-- Name: auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions_group_id_permission_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_key UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission_content_type_id_codename_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_key UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups_user_id_group_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_key UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_permission_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_key UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type_app_label_model_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_key UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: django_site_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_site
+    ADD CONSTRAINT django_site_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: easy_thumbnails_source_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY easy_thumbnails_source
+    ADD CONSTRAINT easy_thumbnails_source_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: easy_thumbnails_source_storage_hash_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY easy_thumbnails_source
+    ADD CONSTRAINT easy_thumbnails_source_storage_hash_name_key UNIQUE (storage_hash, name);
+
+
+--
+-- Name: easy_thumbnails_thumbnail_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY easy_thumbnails_thumbnail
+    ADD CONSTRAINT easy_thumbnails_thumbnail_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: easy_thumbnails_thumbnail_storage_hash_name_source_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY easy_thumbnails_thumbnail
+    ADD CONSTRAINT easy_thumbnails_thumbnail_storage_hash_name_source_id_key UNIQUE (storage_hash, name, source_id);
+
+
+--
+-- Name: easy_thumbnails_thumbnaildimensions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY easy_thumbnails_thumbnaildimensions
+    ADD CONSTRAINT easy_thumbnails_thumbnaildimensions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: easy_thumbnails_thumbnaildimensions_thumbnail_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY easy_thumbnails_thumbnaildimensions
+    ADD CONSTRAINT easy_thumbnails_thumbnaildimensions_thumbnail_id_key UNIQUE (thumbnail_id);
+
+
+--
+-- Name: guardian_groupobjectpermissio_group_id_permission_id_object_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY guardian_groupobjectpermission
+    ADD CONSTRAINT guardian_groupobjectpermissio_group_id_permission_id_object_key UNIQUE (group_id, permission_id, object_pk);
+
+
+--
+-- Name: guardian_groupobjectpermission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY guardian_groupobjectpermission
+    ADD CONSTRAINT guardian_groupobjectpermission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: guardian_userobjectpermission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY guardian_userobjectpermission
+    ADD CONSTRAINT guardian_userobjectpermission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: guardian_userobjectpermission_user_id_permission_id_object__key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY guardian_userobjectpermission
+    ADD CONSTRAINT guardian_userobjectpermission_user_id_permission_id_object__key UNIQUE (user_id, permission_id, object_pk);
+
+
+--
+-- Name: shop_basket_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY shop_basket
+    ADD CONSTRAINT shop_basket_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shop_deliverydetail_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY shop_deliverydetail
+    ADD CONSTRAINT shop_deliverydetail_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shop_item_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY shop_item
+    ADD CONSTRAINT shop_item_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shop_order_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY shop_order
+    ADD CONSTRAINT shop_order_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shop_photo_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY shop_photo
+    ADD CONSTRAINT shop_photo_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shop_thumb_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY shop_thumb
+    ADD CONSTRAINT shop_thumb_pkey PRIMARY KEY (item_id);
+
+
+--
+-- Name: shop_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY shop_type
+    ADD CONSTRAINT shop_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shop_writecomment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY shop_writecomment
+    ADD CONSTRAINT shop_writecomment_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: south_migrationhistory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY south_migrationhistory
+    ADD CONSTRAINT south_migrationhistory_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: userena_userenasignup_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY userena_userenasignup
+    ADD CONSTRAINT userena_userenasignup_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: userena_userenasignup_user_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY userena_userenasignup
+    ADD CONSTRAINT userena_userenasignup_user_id_key UNIQUE (user_id);
+
+
+--
+-- Name: auth_group_name_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_name_like ON auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_group_id ON auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_permission_id ON auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_permission_content_type_id ON auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_group_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_group_id ON auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_user_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_user_id ON auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_permission_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id ON auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_user_id ON auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_username_like ON auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: django_admin_log_content_type_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_content_type_id ON django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_user_id ON django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_session_expire_date ON django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_session_session_key_like ON django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: easy_thumbnails_source_name; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX easy_thumbnails_source_name ON easy_thumbnails_source USING btree (name);
+
+
+--
+-- Name: easy_thumbnails_source_name_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX easy_thumbnails_source_name_like ON easy_thumbnails_source USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: easy_thumbnails_source_storage_hash; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX easy_thumbnails_source_storage_hash ON easy_thumbnails_source USING btree (storage_hash);
+
+
+--
+-- Name: easy_thumbnails_source_storage_hash_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX easy_thumbnails_source_storage_hash_like ON easy_thumbnails_source USING btree (storage_hash varchar_pattern_ops);
+
+
+--
+-- Name: easy_thumbnails_thumbnail_name; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX easy_thumbnails_thumbnail_name ON easy_thumbnails_thumbnail USING btree (name);
+
+
+--
+-- Name: easy_thumbnails_thumbnail_name_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX easy_thumbnails_thumbnail_name_like ON easy_thumbnails_thumbnail USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: easy_thumbnails_thumbnail_source_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX easy_thumbnails_thumbnail_source_id ON easy_thumbnails_thumbnail USING btree (source_id);
+
+
+--
+-- Name: easy_thumbnails_thumbnail_storage_hash; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX easy_thumbnails_thumbnail_storage_hash ON easy_thumbnails_thumbnail USING btree (storage_hash);
+
+
+--
+-- Name: easy_thumbnails_thumbnail_storage_hash_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX easy_thumbnails_thumbnail_storage_hash_like ON easy_thumbnails_thumbnail USING btree (storage_hash varchar_pattern_ops);
+
+
+--
+-- Name: guardian_groupobjectpermission_content_type_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX guardian_groupobjectpermission_content_type_id ON guardian_groupobjectpermission USING btree (content_type_id);
+
+
+--
+-- Name: guardian_groupobjectpermission_group_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX guardian_groupobjectpermission_group_id ON guardian_groupobjectpermission USING btree (group_id);
+
+
+--
+-- Name: guardian_groupobjectpermission_permission_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX guardian_groupobjectpermission_permission_id ON guardian_groupobjectpermission USING btree (permission_id);
+
+
+--
+-- Name: guardian_userobjectpermission_content_type_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX guardian_userobjectpermission_content_type_id ON guardian_userobjectpermission USING btree (content_type_id);
+
+
+--
+-- Name: guardian_userobjectpermission_permission_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX guardian_userobjectpermission_permission_id ON guardian_userobjectpermission USING btree (permission_id);
+
+
+--
+-- Name: guardian_userobjectpermission_user_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX guardian_userobjectpermission_user_id ON guardian_userobjectpermission USING btree (user_id);
+
+
+--
+-- Name: shop_basket_item_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX shop_basket_item_id ON shop_basket USING btree (item_id);
+
+
+--
+-- Name: shop_basket_order_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX shop_basket_order_id ON shop_basket USING btree (order_id);
+
+
+--
+-- Name: shop_order_user_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX shop_order_user_id ON shop_order USING btree (user_id);
+
+
+--
+-- Name: shop_photo_item_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX shop_photo_item_id ON shop_photo USING btree (item_id);
+
+
+--
+-- Name: shop_writecomment_item_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX shop_writecomment_item_id ON shop_writecomment USING btree (item_id);
+
+
+--
+-- Name: shop_writecomment_user_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX shop_writecomment_user_id ON shop_writecomment USING btree (user_id);
+
+
+--
+-- Name: accounts_myprofile_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY accounts_myprofile
+    ADD CONSTRAINT accounts_myprofile_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions_permission_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_permission_id_fkey FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_fkey FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions_permission_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_permission_id_fkey FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: content_type_id_refs_id_93d2d1f8; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT content_type_id_refs_id_93d2d1f8 FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: content_type_id_refs_id_d043b34a; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT content_type_id_refs_id_d043b34a FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: easy_thumbnails_thumbnail_source_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY easy_thumbnails_thumbnail
+    ADD CONSTRAINT easy_thumbnails_thumbnail_source_id_fkey FOREIGN KEY (source_id) REFERENCES easy_thumbnails_source(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: easy_thumbnails_thumbnaildimensions_thumbnail_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY easy_thumbnails_thumbnaildimensions
+    ADD CONSTRAINT easy_thumbnails_thumbnaildimensions_thumbnail_id_fkey FOREIGN KEY (thumbnail_id) REFERENCES easy_thumbnails_thumbnail(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: group_id_refs_id_f4b32aac; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT group_id_refs_id_f4b32aac FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: guardian_groupobjectpermission_content_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY guardian_groupobjectpermission
+    ADD CONSTRAINT guardian_groupobjectpermission_content_type_id_fkey FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: guardian_groupobjectpermission_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY guardian_groupobjectpermission
+    ADD CONSTRAINT guardian_groupobjectpermission_group_id_fkey FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: guardian_groupobjectpermission_permission_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY guardian_groupobjectpermission
+    ADD CONSTRAINT guardian_groupobjectpermission_permission_id_fkey FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: guardian_userobjectpermission_content_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY guardian_userobjectpermission
+    ADD CONSTRAINT guardian_userobjectpermission_content_type_id_fkey FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: guardian_userobjectpermission_permission_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY guardian_userobjectpermission
+    ADD CONSTRAINT guardian_userobjectpermission_permission_id_fkey FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: guardian_userobjectpermission_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY guardian_userobjectpermission
+    ADD CONSTRAINT guardian_userobjectpermission_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shop_basket_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shop_basket
+    ADD CONSTRAINT shop_basket_item_id_fkey FOREIGN KEY (item_id) REFERENCES shop_item(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shop_basket_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shop_basket
+    ADD CONSTRAINT shop_basket_order_id_fkey FOREIGN KEY (order_id) REFERENCES shop_order(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shop_order_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shop_order
+    ADD CONSTRAINT shop_order_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shop_photo_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shop_photo
+    ADD CONSTRAINT shop_photo_item_id_fkey FOREIGN KEY (item_id) REFERENCES shop_item(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shop_thumb_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shop_thumb
+    ADD CONSTRAINT shop_thumb_item_id_fkey FOREIGN KEY (item_id) REFERENCES shop_item(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shop_writecomment_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shop_writecomment
+    ADD CONSTRAINT shop_writecomment_item_id_fkey FOREIGN KEY (item_id) REFERENCES shop_item(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shop_writecomment_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY shop_writecomment
+    ADD CONSTRAINT shop_writecomment_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: user_id_refs_id_40c41112; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT user_id_refs_id_40c41112 FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: user_id_refs_id_4dc23c39; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT user_id_refs_id_4dc23c39 FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: user_id_refs_id_c0d12874; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT user_id_refs_id_c0d12874 FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: userena_userenasignup_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY userena_userenasignup
+    ADD CONSTRAINT userena_userenasignup_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
