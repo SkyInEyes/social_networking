@@ -1,0 +1,14 @@
+django
+pillow
+bitstring
+django-appconf
+django-guardian
+django-imagekit
+django-userena
+easy-thumbnails
+html2text
+pilkit
+psycopg2
+six
+sorl-thumbnail
+dajaxice
