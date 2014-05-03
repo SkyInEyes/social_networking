@@ -6,6 +6,8 @@
 - библиотеки из файла requirements.txt
 
 Развертывание:
+
+Скопировать проект на локальную мащину:
 - git clone https://github.com/SkyInEyes/social_networking.git
 
 Если есть pip:
@@ -14,5 +16,9 @@
 Если нету pip:
 - Установить все необходимые пакеты из файла requirments.txt
 
+Восстановить базу данных на локальной машине:
+
 - psql -U test_db < shop_db_dump (password: blitzcrank)
+
+Запустить сервер на локальной машине:
 - python manage.py runserver
