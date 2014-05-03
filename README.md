@@ -10,6 +10,7 @@
 
 Если есть pip:
 - pip install -r requirments.txt
+
 Если нету pip:
 - Установить все необходимые пакеты из файла requirments.txt
 
